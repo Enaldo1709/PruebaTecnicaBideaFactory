@@ -45,4 +45,7 @@ public class GenericException extends RuntimeException{
     public static GenericException conflict(String message){
         return new GenericException(message, HttpCodes.CONFLICT.value, "Conflict");
     }
+    public static GenericException timeout(String message){
+        return new GenericException(message, HttpCodes.TIMEOUT.value, "Request Timeout");
+    }
 }

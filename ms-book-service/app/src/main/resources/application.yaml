@@ -1,0 +1,14 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /bideafactory/book
+
+spring:
+  application:
+    name: "ms-book-service"
+  devtools:
+    add-properties: false
+  h2:
+    console:
+      enabled: true
+      path: "/h2"

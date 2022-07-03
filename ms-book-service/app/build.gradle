@@ -3,6 +3,8 @@ apply plugin: 'org.springframework.boot'
 dependencies {
     implementation project(':model')
     implementation project(':usecase')
+    implementation project(':rest-consumer')
+    implementation project(':model-validator')
 
     implementation 'io.projectreactor:reactor-core'
     implementation 'io.projectreactor.addons:reactor-extra'

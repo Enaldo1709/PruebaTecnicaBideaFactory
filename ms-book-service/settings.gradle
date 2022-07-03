@@ -7,10 +7,14 @@
  * in the user manual at https://docs.gradle.org/7.4.2/userguide/multi_project_builds.html
  */
 
-rootProject.name = 'service'
+rootProject.name = 'ms-book-service'
 include ':app'
 include ':model'
 include ':usecase'
+include ':rest-consumer'
+include ':model-validator'
 project(':app').projectDir = file('./app')
 project(':model').projectDir = file('./domain/model')
 project(':usecase').projectDir = file('./domain/usecase')
+project(':rest-consumer').projectDir = file('./infraestructure/adapters/rest-consumer')
+project(':model-validator').projectDir = file('./infraestructure/helpers/model-validator')

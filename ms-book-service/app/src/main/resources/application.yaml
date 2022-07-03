@@ -15,5 +15,7 @@ spring:
 
 adapter:
   restconsumer:
+    ssl:
+      keystore-pass: b2z^kIqSD^9$jHv
     timeout: 5000
     discount-url: https://622271e2666291106a26a17c.mockapi.io/discount/v1/new

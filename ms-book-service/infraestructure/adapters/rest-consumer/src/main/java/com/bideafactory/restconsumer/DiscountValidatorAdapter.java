@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class DiscountValidatorAdapter implements DiscountValidator{
 
-    @Value("${adapter.restconsumer.timeout.discount-url}")
+    @Value("${adapter.restconsumer.discount-url}")
     private String discountUrl;
 
     private final RestConsumerOperations operations;

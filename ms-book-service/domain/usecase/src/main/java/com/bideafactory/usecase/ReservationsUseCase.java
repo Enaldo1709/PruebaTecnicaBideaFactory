@@ -22,10 +22,11 @@ public class ReservationsUseCase {
     private final BookValidator bookValidator;
     private final DiscountValidator discountValidator;
 
+    
     public Mono<Response> toBook(String model){
         return bookValidator.validateBook(model)
             .flatMap(this::validateDate)
-            .flatMap(book -> discountValidator.validateDiscount(book.getDiscountCode()))
+            .flatMap(discountValidator::validateDiscount)
             .flatMap(this::validateHouseIsAvailable)
             .flatMap(repository::save)
             .map(book -> ResponseModel.ok("Book Accepted."))
@@ -33,12 +34,14 @@ public class ReservationsUseCase {
             .onErrorResume(GenericException.class, e -> Mono.just(ErrorResponse.error(e)));
     } 
 
+
     protected Mono<BookModel> validateDate(BookModel model){
         if (model.getStartDate().after(model.getEndDate())){
             return Mono.error(GenericException.badRequest("The start date cannot be set after the end date."));
         }
         return Mono.just(model);
     }
+
 
     protected Mono<BookModel> validateHouseIsAvailable(BookModel model){
         return repository.getAllByHouseId(model.getHouseId())
@@ -49,8 +52,10 @@ public class ReservationsUseCase {
             
     }
 
+
     protected Predicate<BookModel> checkDatesNotAvailable = m -> m.getEndDate().after(Date.from(Instant.now())) 
         && m.getStartDate().before(Date.from(Instant.now()));
+
 
     protected Mono<Long> isAvailable(Long count){
         if (count > 0) {

@@ -44,14 +44,13 @@ class ReservationsUseCaseTest {
         when(bookValidator.validateBook(anyString())).thenReturn(Mono.just(model));
         when(repository.save(any(BookModel.class))).thenReturn(Mono.just(model));
         when(repository.getAllByHouseId(anyString())).thenReturn(Flux.just(model));
-        when(discountValidator.validateDiscount(anyString())).thenReturn(Mono.just(model));
+        when(discountValidator.validateDiscount(any(BookModel.class))).thenReturn(Mono.just(model));
 
         Date endDate = Date.valueOf(LocalDate.of(2022, 5, 22));
         Date startDate = Date.valueOf(LocalDate.of(2022, 4, 24));
         
         when(model.getEndDate()).thenReturn(endDate);
         when(model.getStartDate()).thenReturn(startDate);
-        when(model.getDiscountCode()).thenReturn("test");
         when(model.getHouseId()).thenReturn("test");
 
         StepVerifier.create(useCase.toBook("test"))

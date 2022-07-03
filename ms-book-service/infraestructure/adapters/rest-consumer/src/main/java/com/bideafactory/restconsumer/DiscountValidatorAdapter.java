@@ -25,10 +25,13 @@ public class DiscountValidatorAdapter implements DiscountValidator{
     @Override
     public Mono<BookModel> validateDiscount(BookModel model) {
         return operations.get(discountUrl)
-            .filter(m -> m.containsKey("status") && m.containsKey("discountCode"))
-            .any(
+            .filter(m -> m.containsKey("status") 
+                        && m.containsKey("discountCode")
+                        && m.containsKey("userId")
+            ).any(
                 m -> String.valueOf(m.get("discountCode")).equals(model.getDiscountCode()) 
-                    && Boolean.valueOf(String.valueOf(m.get("status"))).equals(Boolean.TRUE)    
+                    && Boolean.valueOf(String.valueOf(m.get("status"))).equals(Boolean.TRUE)
+                    && String.valueOf(m.get("userId")).equals(model.getId()) 
             )
             .flatMap(b -> Boolean.TRUE.equals(b)
                 ? Mono.just(model)

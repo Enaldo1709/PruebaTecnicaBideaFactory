@@ -41,11 +41,12 @@ class DiscountValidatorAdapterTest {
     @Test
     void testValidateDiscountSuccess() {
         Flux<HashMap<String,Object>> flux = Flux.just(
-            new HashMap<>(Map.of("status",true,"discountCode","test"))
+            new HashMap<>(Map.of("status",true,"discountCode","test","userId","test"))
         );
         when(operations.get(anyString())).thenReturn(flux);
         BookModel model = mock(BookModel.class);
         when(model.getDiscountCode()).thenReturn("test");
+        when(model.getId()).thenReturn("test");
 
         StepVerifier.create(adapter.validateDiscount(model))
             .expectSubscription()
@@ -55,18 +56,19 @@ class DiscountValidatorAdapterTest {
     @Test
     void testValidateDiscountFailedInvalid() {
         Flux<HashMap<String,Object>> flux = Flux.just(
-            new HashMap<>(Map.of("test",true,"discountCode","test"))
+            new HashMap<>(Map.of("test",true,"discountCode","test","userId","test"))
         );
         when(operations.get(anyString())).thenReturn(flux);
         BookModel model = mock(BookModel.class);
         when(model.getDiscountCode()).thenReturn("test");
+        when(model.getId()).thenReturn("test");
 
         StepVerifier.create(adapter.validateDiscount(model))
             .expectError(GenericException.class)
             .verify();
 
         Flux<HashMap<String,Object>> flux2 = Flux.just(
-            new HashMap<>(Map.of("status",true,"discountCode","test1"))
+            new HashMap<>(Map.of("status",true,"discountCode","test1","userId","test"))
         );
         when(operations.get(anyString())).thenReturn(flux2);
 
@@ -74,7 +76,7 @@ class DiscountValidatorAdapterTest {
             .expectError(GenericException.class)
             .verify();
         Flux<HashMap<String,Object>> flux3 = Flux.just(
-            new HashMap<>(Map.of("status",true,"test","test1"))
+            new HashMap<>(Map.of("status",true,"test","test1","userId","test"))
         );
         when(operations.get(anyString())).thenReturn(flux3);
 
@@ -82,9 +84,25 @@ class DiscountValidatorAdapterTest {
             .expectError(GenericException.class)
             .verify();
         Flux<HashMap<String,Object>> flux4 = Flux.just(
-            new HashMap<>(Map.of("status",false,"discountCode","test"))
+            new HashMap<>(Map.of("status",false,"discountCode","test","userId","test"))
         );
         when(operations.get(anyString())).thenReturn(flux4);
+
+        StepVerifier.create(adapter.validateDiscount(model))
+            .expectError(GenericException.class)
+            .verify();
+        Flux<HashMap<String,Object>> flux5 = Flux.just(
+            new HashMap<>(Map.of("status",true,"discountCode","test","userI","test"))
+        );
+        when(operations.get(anyString())).thenReturn(flux5);
+
+        StepVerifier.create(adapter.validateDiscount(model))
+            .expectError(GenericException.class)
+            .verify();
+        Flux<HashMap<String,Object>> flux6 = Flux.just(
+            new HashMap<>(Map.of("status",true,"discountCode","test","userId","test1"))
+        );
+        when(operations.get(anyString())).thenReturn(flux6);
 
         StepVerifier.create(adapter.validateDiscount(model))
             .expectError(GenericException.class)

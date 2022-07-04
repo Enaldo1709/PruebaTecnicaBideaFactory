@@ -1,0 +1,57 @@
+version: '3'
+services:
+  book-service:
+    image: ms-book-service:latest
+    ports:
+      - 8080:8080
+      - 9080:9080
+    depends_on:
+      - database
+    healthcheck:
+      test: ["CURL","-f", "http://172.24.2.1:9080/ms-book-service/actuator/health/liveness || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    restart: always
+    environment:
+      - CONTEXT_PATH=/bideafactory/book
+      - KEY_STORE_PASS=b2zkIqSD9jHv
+      - CONSUMER_TIMEOUT=5000
+      - DISCOUNT_URL=https://622271e2666291106a26a17c.mockapi.io/discount/v1/new
+      - DB_DATABASE=bideabook
+      - DB_SCHEMA=schbook
+      - DB_USERNAME=cnxbook
+      - DB_PASSWORD=bideapass
+      - DB_HOST=172.24.2.2
+      - DB_PORT=5432
+    networks:
+      booknet:
+        ipv4_address: 172.24.2.1
+  database:
+    image: postgres:14-alpine
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+      - APP_DB_USER=cnxbook
+      - APP_DB_PASS=bideapass
+      - APP_DB_NAME=bideabook
+      - APP_DB_SCHEMA=schbook
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/
+    networks:
+      booknet:
+        ipv4_address: 172.24.2.2
+networks:
+  booknet:
+    driver: bridge
+    ipam:
+        driver: default
+        config:
+            - subnet: "172.24.2.0/16"

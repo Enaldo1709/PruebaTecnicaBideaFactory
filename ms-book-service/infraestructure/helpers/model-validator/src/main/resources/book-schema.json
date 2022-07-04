@@ -14,5 +14,5 @@
         "houseId":{"type":"string","pattern": ":regex-char"},
         "discountCode":{"type":"string","pattern": ":regex-char"}
     },
-    "required":["id","startDate","endDate","houseId","discountCode"]
+    "required":["id","name","lastname","age","phoneNumber","startDate","endDate","houseId"]
 }

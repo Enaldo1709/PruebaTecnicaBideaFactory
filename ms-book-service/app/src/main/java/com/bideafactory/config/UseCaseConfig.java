@@ -16,7 +16,7 @@ import com.bideafactory.usecase.ReservationsUseCase;
 public class UseCaseConfig {
     @Bean
     ReservationsUseCase reservationsUseCase(
-            @Qualifier("bookEntityRespositoryAdapter") BookService repository,
+            @Qualifier("bookServiceAdapter") BookService repository,
             BookValidator bookValidator, 
             DiscountValidator discountValidator){
         return new ReservationsUseCase(repository, bookValidator, discountValidator);

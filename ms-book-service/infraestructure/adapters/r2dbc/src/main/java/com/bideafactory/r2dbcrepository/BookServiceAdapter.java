@@ -75,11 +75,16 @@ public class BookServiceAdapter implements BookService{
     }
 
     protected Mono<BookModel> saveHouse(BookModel model){
-        String query = "insert into schbook.house(house_id) select :houseid from schbook.book "
-            +"where not exists (select id from schbook.house where house_id = :houseid );";
-        return client.sql(query)
+        String query = "insert into schbook.house(house_id) values(:houseid)";
+        return client.sql("select id from schbook.house where house_id = :houseid")
             .bind("houseid", model.getHouseId())
-            .fetch().rowsUpdated()
-            .map(j -> model);
+            .fetch().all().count()
+            .flatMap(j -> (j>0)
+                ? Mono.just(model)
+                : client.sql(query)
+                    .bind("houseid", model.getHouseId())
+                    .fetch().rowsUpdated()
+                    .map(i -> model)
+            );
     }
 }

@@ -68,6 +68,7 @@ class BookServiceAdapterTest {
 
     @Test
     void testSave() {
+        when(fetchSpec.all()).thenReturn(Flux.just(Map.of("test","test")));
         when(fetchSpec.rowsUpdated()).thenReturn(Mono.just(1));
         StepVerifier.create(adapter.save(model))
             .expectSubscription()
@@ -81,7 +82,7 @@ class BookServiceAdapterTest {
     }
 
     @Test
-    void testSaveHouse() {
+    void testSaveUser() {
         when(fetchSpec.rowsUpdated()).thenReturn(Mono.just(1));
         StepVerifier.create(adapter.saveUser(model))
             .expectSubscription()
@@ -90,7 +91,14 @@ class BookServiceAdapterTest {
     }
 
     @Test
-    void testSaveUser() {
+    void testSaveHouse() {
+        when(fetchSpec.all()).thenReturn(Flux.just(Map.of("test","test")));
+        StepVerifier.create(adapter.saveHouse(model))
+            .expectSubscription()
+            .assertNext(actual -> assertEquals(model, actual))
+            .verifyComplete();
+
+        when(fetchSpec.all()).thenReturn(Flux.empty());
         when(fetchSpec.rowsUpdated()).thenReturn(Mono.just(1));
         StepVerifier.create(adapter.saveHouse(model))
             .expectSubscription()

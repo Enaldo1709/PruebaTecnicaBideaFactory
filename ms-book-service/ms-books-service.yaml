@@ -1,0 +1,116 @@
+openapi: 3.0.2
+servers:
+  - description: SpringBoot Server Dev
+    url: http://localhost.com/bideafactory
+info:
+  description: Booking API
+  version: 1.0.0
+  title: OTTAPI
+tags:
+  - name: Booking
+    description: Booking
+paths:
+  /book:
+    post:
+      tags:
+        - Booking
+      summary: Reserva casa
+      requestBody:
+        description: Método que permite Reserva casa
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookRequest'
+      responses:
+        '200':
+          description: Reserva casa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookResponse'
+        '400':
+          description: Request Invalido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    BookRequest:
+      required:
+        - id
+        - name
+        - lastname
+        - age
+        - startDate
+        - endDate
+        - phoneNumber
+        - houseId
+      properties:
+        id:
+          type: string
+          example: "14564088-4"
+          minLength: 9
+          maxLength: 10
+        name:
+          type: string
+          example: Gonzalo
+          minLength: 2
+          maxLength: 50
+        lastname: 
+          type: string
+          example: "Pérez"
+          minLength: 2
+          maxLength: 50
+        age:
+          type: number
+          example: 33
+          minimum: 18
+          maximum: 100
+        phoneNumber:
+          type: string
+          example: 56988123222
+          minLength: 9
+          maxLength: 20
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        houseId:
+          type: string
+          example: 213132
+          minLength: 6
+          maxLength: 15
+        discountCode:
+          type: string
+          minLength: 8
+          maxLength: 8
+          example: D0542A23
+    BookResponse:
+      required: 
+        - "code"
+        - "message"
+      properties: 
+        code: 
+          type: "number"
+          example: 200
+        message: 
+          type: "string"
+          example: "Book Accepted"
+    ErrorResponse:
+      required: 
+        - "code"
+        - "message"
+      properties: 
+        statusCode: 
+          type: "number"
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: "string"
+          example: "required property 'houseId'"

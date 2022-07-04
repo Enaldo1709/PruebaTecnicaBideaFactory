@@ -1,0 +1,8 @@
+dependencies {
+    implementation project(':model')
+
+    implementation 'org.springframework:spring-context'
+    implementation 'org.slf4j:slf4j-api:2.0.0-alpha7'
+    implementation 'org.everit.json:org.everit.json.schema:1.5.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.2'
+}

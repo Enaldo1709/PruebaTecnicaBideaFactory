@@ -1,0 +1,36 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /bideafactory/book
+
+spring:
+  application:
+    name: "ms-book-service"
+  devtools:
+    add-properties: false
+  h2:
+    console:
+      enabled: true
+      path: "/h2"
+
+adapter:
+  restconsumer:
+    ssl:
+      keystore-pass: b2z^kIqSD^9$jHv
+    timeout: 5000
+    discount-url: https://622271e2666291106a26a17c.mockapi.io/discount/v1/new
+  r2dbc:
+    database:
+      database: bideabook
+      schema: schbook
+      username: cnxbook
+      password: bideapass
+      host: localhost
+      port: 5432
+
+validation:
+  schema-filename: book-schema.json
+  regex:
+    chars: ^([^$<>'\"/\t\n\r&{}]*)$
+    date: ^(19[0-9]{2}|2[0-9]{3})-(0[1-9]|1[012])-([123]0|[012][1-9]|31)$
+

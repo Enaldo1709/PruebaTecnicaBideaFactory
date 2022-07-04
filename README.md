@@ -45,7 +45,6 @@ docker compose -f "deployment/docker-compose.yml" up -d --build
 ```bash
 curl -X POST \
   'http://localhost:8080/bideafactory/book' \
-  --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
   --data-raw '{
     "id":"14564088-4",

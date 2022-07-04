@@ -2,11 +2,10 @@ package com.bideafactory.model.gateways;
 
 import com.bideafactory.model.dto.BookModel;
 
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public interface BookRepository {
-    public Flux<BookModel> getAllByHouseId(String houseId);
+public interface BookService {
+    public Mono<BookModel> validateIsAvailable(BookModel model);
     public Mono<BookModel> save(BookModel model);
     
 }

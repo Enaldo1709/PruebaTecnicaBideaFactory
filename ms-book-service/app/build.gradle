@@ -5,7 +5,10 @@ dependencies {
     implementation project(':usecase')
     implementation project(':rest-consumer')
     implementation project(':model-validator')
+    implementation project(':reactive-web')
+    implementation project(':r2dbc')
 
+    
     implementation 'io.projectreactor:reactor-core'
     implementation 'io.projectreactor.addons:reactor-extra'
 

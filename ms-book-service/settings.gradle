@@ -13,8 +13,12 @@ include ':model'
 include ':usecase'
 include ':rest-consumer'
 include ':model-validator'
+include ':reactive-web'
+include ':r2dbc'
 project(':app').projectDir = file('./app')
 project(':model').projectDir = file('./domain/model')
 project(':usecase').projectDir = file('./domain/usecase')
 project(':rest-consumer').projectDir = file('./infraestructure/adapters/rest-consumer')
 project(':model-validator').projectDir = file('./infraestructure/helpers/model-validator')
+project(':reactive-web').projectDir = file('./infraestructure/entry-points/reactive-web')
+project(':r2dbc').projectDir = file('./infraestructure/adapters/r2dbc')

@@ -1,0 +1,18 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Configuration",
+    "description": "Request model for the consumption of the service",
+    "type": "object",
+    "properties": {
+        "id":{"type":"string","pattern": ":regex-char"},
+        "name":{"type":"string","pattern": ":regex-char"},
+        "lastname":{"type":"string","pattern": ":regex-char"},
+        "age":{"type":"number"},
+        "phoneNumber":{"type":"string","pattern": ":regex-char"},
+        "startDate":{"type":"string","pattern": ":regex-date"},
+        "endDate":{"type":"string","pattern": ":regex-date"},
+        "houseId":{"type":"string","pattern": ":regex-char"},
+        "discountCode":{"type":"string","pattern": ":regex-char"}
+    },
+    "required":["id","startDate","endDate","houseId","discountCode"]
+}

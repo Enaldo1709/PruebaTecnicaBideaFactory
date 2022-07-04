@@ -1,7 +1,20 @@
 server:
   port: 8080
   servlet:
-    context-path: /bideafactory/book
+    context-path: ${CONTEXT_PATH:/bideafactory/book}
+
+management:
+  server:
+    port: ${MANAGEMENT_PORT:9080}
+  endpoints:
+    web:
+      base-path: /ms-book-service/actuator
+      exposure:
+        include: "health"
+  endpoint:
+    health:
+      probes:
+        enabled: true
 
 spring:
   application:
@@ -16,17 +29,17 @@ spring:
 adapter:
   restconsumer:
     ssl:
-      keystore-pass: b2z^kIqSD^9$jHv
-    timeout: 5000
-    discount-url: https://622271e2666291106a26a17c.mockapi.io/discount/v1/new
+      keystore-pass: ${KEY_STORE_PASS}
+    timeout: ${CONSUMER_TIMEOUT}
+    discount-url: ${DISCOUNT_URL}
   r2dbc:
     database:
-      database: bideabook
-      schema: schbook
-      username: cnxbook
-      password: bideapass
-      host: localhost
-      port: 5432
+      database: ${DB_DATABASE}
+      schema: ${DB_SCHEMA}
+      username: ${DB_USERNAME}
+      password: ${DB_PASSWORD}
+      host: ${DB_HOST}
+      port: ${DB_PORT}
 
 validation:
   schema-filename: book-schema.json

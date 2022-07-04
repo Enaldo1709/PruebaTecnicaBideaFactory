@@ -32,20 +32,27 @@ public class GenericException extends RuntimeException{
 
     
     public static GenericException badRequest(String message){
-        return new GenericException(message, HttpCodes.BAD_REQUEST.value, "Bad Request");
+        return new GenericException(message, HttpCodes.BAD_REQUEST.value, HttpCodes.BAD_REQUEST.status);
     }
     
     public static GenericException error(String message, String error, Throwable cause){
         return new GenericException(message, cause, HttpCodes.SERVER_ERROR.value, error);
     }
+    public static GenericException serverError(String message){
+        return new GenericException(message, HttpCodes.SERVER_ERROR.value, HttpCodes.SERVER_ERROR.status);
+    }
+    public static GenericException serverError(String message, Throwable cause){
+        return new GenericException(message +": "+cause.getMessage(), cause, 
+            HttpCodes.SERVER_ERROR.value, HttpCodes.SERVER_ERROR.status);
+    }
     public static GenericException serverError(Throwable cause){
-        return new GenericException(cause.getMessage(), cause, HttpCodes.SERVER_ERROR.value, "Internal Server Error");
+        return new GenericException(cause.getMessage(), cause, HttpCodes.SERVER_ERROR.value, HttpCodes.SERVER_ERROR.status);
     }
 
     public static GenericException conflict(String message){
-        return new GenericException(message, HttpCodes.CONFLICT.value, "Conflict");
+        return new GenericException(message, HttpCodes.CONFLICT.value, HttpCodes.CONFLICT.status);
     }
     public static GenericException timeout(String message){
-        return new GenericException(message, HttpCodes.TIMEOUT.value, "Request Timeout");
+        return new GenericException(message, HttpCodes.TIMEOUT.value, HttpCodes.TIMEOUT.status);
     }
 }

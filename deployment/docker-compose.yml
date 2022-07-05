@@ -45,6 +45,7 @@ services:
       - APP_DB_SCHEMA=schbook
     volumes:
       - ./db:/docker-entrypoint-initdb.d/
+      - ./data:/var/lib/postgresql/data
     networks:
       booknet:
         ipv4_address: 172.24.2.2
